@@ -56,7 +56,7 @@ object MessageControllerSpec extends Specification {
   }
 
   def createMessage(msg: String) = {
-    Await.ready(MessageDao.save(Message(BSONObjectID.generate, msg)), Duration.Inf)
+    Await.result(MessageDao.save(Message(BSONObjectID.generate, msg)), Duration.Inf)
   }
 
   def extractLink(rel: String, link: String) = {
