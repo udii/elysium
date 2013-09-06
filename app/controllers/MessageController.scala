@@ -48,7 +48,7 @@ object MessageController extends Controller {
     Json.fromJson[MessageForm](req.body).fold(
       invalid => BadRequest("Bad message form"),
       form => Async {
-          MessageDao.save(form.toMessage).map(_ => Created)
+        MessageDao.save(form.toMessage).map(_ => Created)
       }
     )
   }

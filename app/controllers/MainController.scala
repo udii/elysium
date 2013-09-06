@@ -11,7 +11,7 @@ object MainController extends Controller {
    * The index page.  This is the main entry point, seeing as this is a single page app.
    */
   def index(path: String) = Action {
-    Ok(views.html.index("Hello"))
+    Ok(views.html.index())
   }
 
   /** The javascript router. */
