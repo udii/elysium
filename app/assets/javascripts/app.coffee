@@ -1,5 +1,7 @@
 require(["webjars!knockout.js", 'webjars!jquery.js', "/routes.js", "webjars!bootstrap.js"], (ko) ->
 
+  messagesPerPage = 10
+
   /* Models for the messages page */
   class MessagesModel
     constructor: () ->
@@ -19,7 +21,9 @@ require(["webjars!knockout.js", 'webjars!jquery.js', "/routes.js", "webjars!boot
       /* save a new message */
       @saveMessage = () ->
         @ajax(routes.controllers.MessageController.saveMessage(), {
-          data: JSON.stringify({message: @messageField()})
+          data: JSON.stringify({
+            message: @messageField()
+          })
           contentType: "application/json"
         }).done(() ->
           $("#addMessageModal").modal("hide")
@@ -28,9 +32,10 @@ require(["webjars!knockout.js", 'webjars!jquery.js', "/routes.js", "webjars!boot
 
       /* get the messages */
       @getMessages = () ->
-        @ajax(routes.controllers.MessageController.getMessages()).done((data, status, xhr) ->
-          self.loadMessages(data, status, xhr)
-        )
+        @ajax(routes.controllers.MessageController.getMessages(0, messagesPerPage))
+          .done((data, status, xhr) ->
+            self.loadMessages(data, status, xhr)
+          )
 
       /* get the next page of messages */
       @nextMessages = () ->
@@ -46,11 +51,15 @@ require(["webjars!knockout.js", 'webjars!jquery.js', "/routes.js", "webjars!boot
             self.loadMessages(data, status, xhr)
           )
 
+    /* Convenience ajax request function */
     ajax: (route, params) ->
       $.ajax($.extend(params, route))
 
+    /* Handle the messages response */
     loadMessages: (data, status, xhr) ->
       @messages(data)
+
+      # Link handling for paging
       link = xhr.getResponseHeader("Link")
       if link
         next = /.*<([^>]*)>; rel="next".*/.exec(link)
@@ -67,15 +76,21 @@ require(["webjars!knockout.js", 'webjars!jquery.js', "/routes.js", "webjars!boot
         @nextMessagesUrl(null)
         @prevMessagesUrl(null)
 
-
-
+  # Setup
   model = new MessagesModel
   ko.applyBindings(model)
+  # Load messages data
   model.getMessages()
 
   /* Server Sent Events handling */
   events = new EventSource(routes.controllers.MainController.events().url)
   events.addEventListener("message", (e) ->
-    model.messages.unshift(JSON.parse(e.data))
+    # Only add the data to the list if we're on the first page
+    if model.prevMessagesUrl() == null
+      message = JSON.parse(e.data)
+      model.messages.unshift(message)
+      # Keep messages per page limit
+      if model.messages().length > messagesPerPage
+        model.messages.pop()
   , false)
 )

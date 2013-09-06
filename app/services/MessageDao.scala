@@ -1,15 +1,17 @@
 package services
 
 import play.modules.reactivemongo.ReactiveMongoPlugin
-import play.api.Play.current
 import play.modules.reactivemongo.json.collection.JSONCollection
+import play.modules.reactivemongo.json.BSONFormats._
+import play.api.Play.current
 import models._
 import models.Message._
 import scala.concurrent.Future
 import play.api.libs.concurrent.Execution.Implicits._
 import play.api.libs.json.Json
 import reactivemongo.api.QueryOpts
-import reactivemongo.core.commands.{GetLastError, Count}
+import reactivemongo.core.commands.Count
+import reactivemongo.bson.BSONObjectID
 
 /** A data access object for messages backed by a MongoDB collection */
 object MessageDao {

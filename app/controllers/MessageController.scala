@@ -17,6 +17,8 @@ object MessageController extends Controller {
         messages <- MessageDao.findAll(page, perPage)
       } yield {
         val result = Ok(Json.toJson(messages))
+
+        // Calculate paging headers, if necessary
         val next = if (count > (page + 1) * perPage) Some("next" -> (page + 1)) else None
         val prev = if (page > 0) Some("prev" -> (page - 1)) else None
         val links = next ++ prev
@@ -32,12 +34,23 @@ object MessageController extends Controller {
     }
   }
 
+  /**
+   * The message form.  This is separate from the database message since the form doesn't have an ID.
+   */
+  case class MessageForm(message: String) {
+    def toMessage: Message = Message(BSONObjectID.generate, message)
+  }
+
+  implicit val messageFormFormat = Json.format[MessageForm]
+
   /** Action to save a message */
   def saveMessage = Action(parse.json) { req =>
-    val message = Message(BSONObjectID.generate, (req.body \ "message").as[String])
-    Async {
-      MessageDao.save(message).map(_ => Created)
-    }
+    Json.fromJson[MessageForm](req.body).fold(
+      invalid => BadRequest("Bad message form"),
+      form => Async {
+          MessageDao.save(form.toMessage).map(_ => Created)
+      }
+    )
   }
 
 }

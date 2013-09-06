@@ -10,16 +10,17 @@
                     <h3>Add a message</h3>
                 </div>
                 <div class="modal-body">
-                    <form>
-                        <fieldset>
-                            <label>Message</label>
-                            <input type="text" placeholder="Type a message…" data-bind="value: messageField">
-                        </fieldset>
+                    <form role="form">
+                        <div class="form-group">
+                            <label for="messageField">Message</label>
+                            <input type="text" class="form-control" id="messageField" placeholder="Enter message"
+                                data-bind="value: messageField"/>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <a href="#" class="btn">Close</a>
-                    <a href="#" class="btn btn-primary" data-bind="click: saveMessage">Add message</a>
+                    <button class="btn btn-link" data-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" data-bind="click: saveMessage">Add message</button>
                 </div>
             </div>
         </div>
