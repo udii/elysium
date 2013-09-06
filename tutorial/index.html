@@ -417,7 +417,7 @@
     <p>
         Configuration for the build system is defined in
         <a href="#code/project/Build.scala" class="shortcut">Build.scala</a>.  This is an
-        <a href="http://www.scala-sbt.org/" target="_blank">SBT</a> build file.  Here all the dependencies of the
+        <a href="http://www.scala-sbt.org/" target="_blank">sbt</a> build file.  Here all the dependencies of the
         application are declared, along with any build configuration.
     </p>
 
@@ -463,7 +463,7 @@
         We want to add an author field to the messages, so we know who wrote them.  Let's start with adding the author
         field to the add message popup. Open
         <a href="#code/app/views/index.scala.html" class="shortcut">index.scala.html</a> and add a new field below the
-        exsting message field:
+        exsting <code>form-group</code> <code>div</code>:
     </p>
 
     <pre><code>&lt;div class="form-group"&gt;
@@ -473,15 +473,15 @@
 &lt;/div&gt;</code></pre>
 
     <p>
-        You can see that we've bound the input element to the <code>messageAuthorField</code> property in the model,
-        so let's add that to <a href="#code/app/assets/javascripts/app.coffee" class="shortcut">app.coffee</a> now,
+        You can see that we've bound the input element to the <code>messageAuthorField</code> property in the model.  Save the changes and now 
+        let's add that to <a href="#code/app/assets/javascripts/app.coffee" class="shortcut">app.coffee</a>,
         just below the declaration for <code>messageField</code>:
     </p>
 
     <pre><code>@messageAuthorField = ko.observable()</code></pre>
 
     <p>
-        If you refresh your browser, you should see the new field, but it doesn't do anything yet.  Let's modify the
+        Save the file.  Now if you refresh the app and click the <strong>Add message</strong>, you should see the new field, but it doesn't do anything yet.  Let's modify the
         <code>saveMessage</code> method so that it adds the author field to the submitted JSON:
     </p>
 
@@ -491,7 +491,7 @@
 })</code></pre>
 
     <p>
-        Now to handle this newly submitted field on the server side, open the
+        Make sure the indentation is correct and then save the file.  Now to handle this newly submitted field on the server side, open the
         <a href="#code/app/models/Message.scala" class="shortcut">Message</a> model, and add the authors field to
         it:
     </p>
@@ -499,7 +499,7 @@
     <pre><code>case class Message(_id: BSONObjectID, message: String, author: String)</code></pre>
 
     <p>
-        Now update the <code>MessageForm</code> in
+        Save your changes.  Now update the <code>MessageForm</code> in
         <a href="#code/app/controllers/MessageController.scala" class="shortcut">MessageController</a> to also accept
         this field, and pass it to the <code>Message</code> object when created:
     </p>
@@ -509,7 +509,7 @@
 }</code></pre>
 
     <p>
-        Before testing this, you may want to prep the database, since any existing data in there won't have the new
+        Save your changes.  Before testing this, you may want to prep the database, since any existing data in there won't have the new
         field.  Open a MongoDB command line shell and drop the messages collection:
     </p>
 
@@ -521,19 +521,19 @@ true</code></pre>
 
     <p>
         Now we should be able to save authors, the only thing left to do is to render them.  Back in
-        <a href="#code/app/views/index.scala.html" class="shortcut">index.scala.html</a>, body the list at the bottom
+        <a href="#code/app/views/index.scala.html" class="shortcut">index.scala.html</a>, update the last <code>&lt;ul&gt;</code> at the bottom of the file
         to render the author field:
     </p>
 
     <pre><code>&lt;ul class="list-unstyled messages" data-bind="foreach: messages"&gt;
     &lt;li&gt;
         &lt;div class="messageAuthor" data-bind="text: $data.author"&gt;&lt;/div&gt;
-        &gt;div class="message" data-bind="text: $data.message"&gt;&lt;/div&gt;
+        &lt;div class="message" data-bind="text: $data.message"&gt;&lt;/div&gt;
     &lt;/li&gt;
 &lt;/ul&gt;</code></pre>
 
     <p>
-        Now we can see the authors, but they don't look pretty.  Add some styling to
+        Save the file.  Refresh the app and add a new message.  Now we can see the authors, but they don't look pretty.  Add some styling to
         <a href="#code/app/assets/stylesheets/main.less" class="shortcut">main.less</a>:
     </p>
 
@@ -544,9 +544,9 @@ true</code></pre>
 }</code></pre>
 
     <p>
-        And now you've finished adding your first feature to the app.  The tests are broken though, let's fix them,
+        Save the file and refresh the app to see the styled author.  And now you've finished adding your first feature to the app.  The tests are broken though, let's fix them,
         and add a new test.  Modify the <code>createMessage</code> method in the
-        <a href="#code/test/MessageControllerSpec.scala" class="shortcut">MessageControllerSpec</a>:
+        <a href="#code/test/MessageControllerSpec.scala" class="shortcut">MessageControllerSpec</a> to also handle the author:
     </p>
 
     <pre><code>def createMessage(msg: String, author: String = "None") = {
@@ -568,10 +568,14 @@ true</code></pre>
 }</code></pre>
 
     <p>
-        Finally fix the <a href="#code/test/EventsSpec.scala" class="shortcut">EventsSpec</a> to populate the author field:
+        Save the file.  Finally fix the <a href="#code/test/EventsSpec.scala" class="shortcut">EventsSpec</a> to populate the author field:
     </p>
 
     <pre><code>val message = Message(BSONObjectID.generate, "Foo", "None")</code></pre>
+
+    <p>
+        Save the file and now the <a href="#test" class="shortcut">tests</a> should all pass.
+    </p>
 
 </div>
 <div>
@@ -668,7 +672,7 @@ true</code></pre>
 }</code></pre>
 
     <p>
-        <a href="#test" class="shortcut">Run</a> the tests to make sure they pass.
+        Run the <a href="#test" class="shortcut">tests</a> to make sure they pass.
     </p>
 
 </div>
@@ -689,7 +693,7 @@ true</code></pre>
             &lt;span data-bind="text: $data.likes"&gt;&lt;/span&gt;
         &lt;/div>
         &lt;div class="messageAuthor" data-bind="text: $data.author"&gt;&lt;/div&gt;
-        &gt;div class="message" data-bind="text: $data.message"&gt;&lt;/div&gt;
+        &lt;div class="message" data-bind="text: $data.message"&gt;&lt;/div&gt;
     &lt;/li&gt;
 &lt;/ul&gt;</code></pre>
 
@@ -728,8 +732,8 @@ true</code></pre>
     <p>
         The final thing we want to implement is reactive likes - when a user likes a message, every browser that is
         viewing the page should be updated with the new likes total for that message.  On the backend, we'll utilise
-        our existing events mechanism to publish a like event when a message is liked in
-        <a href="#code/app/services/MessageDao.scala" class="shortcut">MessageDao</a>:
+        our existing events mechanism to publish a like event when a message is liked.  Update the <code>like</code> method's success handler in the 
+        <a href="#code/app/services/MessageDao.scala" class="shortcut">MessageDao</a> file:
     </p>
 
     <pre><code>case ok if ok.ok =&gt;
@@ -737,7 +741,7 @@ true</code></pre>
   ok.n == 1</code></pre>
 
     <p>
-        Let's extend the existing spec for events in <a href="#code/test/EventsSpec.scala" class="shortcut">EventsSpec</a>:
+        Let's extend the existing spec for events in <a href="#code/test/EventsSpec.scala" class="shortcut">EventsSpec</a> by adding the following to the "publish a new event when a message is saved" test:
     </p>
 
     <pre><code>val likeEvent = EventDao.stream |&gt;&gt;&gt; Iteratee.head
