@@ -482,13 +482,20 @@
 
     <p>
         Save the file.  Now if you refresh the app and click the <strong>Add message</strong>, you should see the new field, but it doesn't do anything yet.  Let's modify the
-        <code>saveMessage</code> method so that it adds the author field to the submitted JSON:
+        <code>saveMessage</code> method so that it adds the author field to the submitted JSON and then clear the messageAuthorField:
     </p>
 
-    <pre><code>data: JSON.stringify({
-  message: @messageField()
-  author: @messageAuthorField()
-})</code></pre>
+    <pre><code>@ajax(routes.controllers.MessageController.saveMessage(), {
+  data: JSON.stringify({
+    message: @messageField()
+    author: @messageAuthorField()
+  })
+  contentType: "application/json"
+}).done(() ->
+  $("#addMessageModal").modal("hide")
+  self.messageField(null)
+  self.messageAuthorField(null)
+)</code></pre>
 
     <p>
         Make sure the indentation is correct and then save the file.  Now to handle this newly submitted field on the server side, open the
