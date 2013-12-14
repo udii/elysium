@@ -7,7 +7,9 @@
                 <h4>1&gt; Select a Type</h4>
             </div>
             <div class="col-md-2">
-                <a data-toggle="modal" href="#addMessageModal" class="btn btn-primary">+</a>
+                <a data-toggle="modal" href="#addMessageModal" class="btn">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </a>
             </div>
         </div>
         <ul class="list-unstyled messages" data-bind="foreach: messages">
@@ -22,7 +24,9 @@
                     <div class="col-md-2">
                         <!--			            	<h4 data-bind="text: $data._id.$oid"></h4>
                                                      <div data-bind="click: function(data) { console.log(model); model.deleteMessage(data._id.$oid) }">DELETE</div> -->
-                        <a class="btn btn-primary" data-bind="click: function(data) { model.deleteMessage(data._id.$oid) }">-</a>
+                        <a class="btn" data-bind="click: function(data) { model.deleteMessage(data._id.$oid) }">
+                            <span class="glyphicon glyphicon-minus"></span>
+                        </a>
                     </div>
                 </div>
             </li>
