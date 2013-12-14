@@ -5,7 +5,7 @@ import play.api.libs.json.Json
 import reactivemongo.bson.BSONObjectID
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
-import services.{EventDao, MessageDao}
+import services.{EventDao}
 import MongoDBTestUtils.withMongoDb
 
 object EventsSpec extends Specification {

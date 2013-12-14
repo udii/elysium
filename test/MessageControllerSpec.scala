@@ -1,6 +1,5 @@
 import controllers.MessageController
 import models.Message
-import services.MessageDao
 
 import org.specs2.mutable.Specification
 import MongoDBTestUtils._
