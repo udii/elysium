@@ -8,8 +8,9 @@ var TraitViewModel = function(traits) {
     var self = this;
 
 	this.messages = ko.observable(traits);
-	this.newtraitname = ko.observable();	
-	this.newtraitmessage = ko.observable();
+	this.newtraitid = ko.observable("-1");
+	this.newtraitname = ko.observable("");
+	this.newtraitmessage = ko.observable("");
 
 	this.getMessages = function() {
 		routes.controllers.MessageController.getMessages().ajax().done( 
@@ -25,14 +26,17 @@ var TraitViewModel = function(traits) {
     this.saveMessage = function() {
     	//self.newtraitmessage(editor.getText());
     	routes.controllers.MessageController.saveMessage().ajax(
-    			{ data: JSON.stringify({name:self.newtraitname(), message:self.newtraitmessage()}), 
+    			{ data: JSON.stringify({
+    			id:self.newtraitid(),
+    			name:self.newtraitname(), message:self.newtraitmessage()}),
     			  contentType: "application/json"
 			    }).done( function() {
 			    	  model.getMessages();
 				      $("#addMessageModal").modal("hide");
-				      self.newtraitname(null);
-				      self.newtraitmessage(null);
-              editor.set({"":""});
+				      self.newtraitid("-1");
+				      self.newtraitname("");
+				      self.newtraitmessage("");
+                     editor.set({"":""});
     			});
     };
 
@@ -43,6 +47,13 @@ var TraitViewModel = function(traits) {
 			    }).done( function() {
 			    	model.getMessages();
     			});
+    };
+
+    this.editMessage = function(id,name,message) {
+        this.newtraitid(id);
+        this.newtraitname(name);
+        this.newtraitmessage(message);
+        editor.setText(message);
     };
 
     /*

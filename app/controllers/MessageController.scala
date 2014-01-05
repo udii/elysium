@@ -18,8 +18,15 @@ object MessageController extends Controller {
       }
   }
 
-  case class MessageForm(name:String, message: String) {
-    def toTrait: Trait = Trait(BSONObjectID.generate, name, message)
+  case class MessageForm(id:String,name:String, message: String) {
+    def toTrait: Trait = {
+      var t:Trait=null
+      if (id eq "-1")
+        t=Trait(BSONObjectID.generate, name, message)
+      else
+        t=Trait(new BSONObjectID(id), name, message)
+      t
+    }
   }
   
   case class IDForm(id:String) {
@@ -31,7 +38,6 @@ object MessageController extends Controller {
   implicit val idFormFormat = Json.format[IDForm]
 
   def saveMessage = Action.async(parse.json) { req =>
-
     Json.fromJson[MessageForm](req.body).fold(
       invalid => Future(BadRequest("Bad message form")),
       form => {
