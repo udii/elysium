@@ -1,0 +1,25 @@
+@()
+<div class="modal fade" id="addMessageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Add a trait</h3>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="messageField">Message and tips</label>
+                        <input type="text" class="form-control" id="newtraitname" placeholder="Enter message"
+                            data-bind="value: newtraitname"/>
+                           @json()
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-link" data-dismiss="modal">Close</button>
+                <button class="btn btn-primary" data-bind="click: saveMessage">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
