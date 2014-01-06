@@ -12,6 +12,7 @@ var TraitViewModel = function(traits) {
 	this.newtraitname = ko.observable("");
 	this.newtraitmessage = ko.observable("");
 
+    this.updateMessage = function(m) {self.newtraitmessage(m);}
 	this.getMessages = function() {
 		routes.controllers.MessageController.getMessages().ajax().done( 
 				function(data, status, xhr) {
@@ -28,15 +29,16 @@ var TraitViewModel = function(traits) {
     	routes.controllers.MessageController.saveMessage().ajax(
     			{ data: JSON.stringify({
     			id:self.newtraitid(),
+    			kind:"trait",
     			name:self.newtraitname(), message:self.newtraitmessage()}),
     			  contentType: "application/json"
 			    }).done( function() {
-			    	  model.getMessages();
+			    	  traitmodel.getMessages();
 				      $("#addMessageModal").modal("hide");
 				      self.newtraitid("-1");
 				      self.newtraitname("");
 				      self.newtraitmessage("");
-                     editor.set({"":""});
+                     traiteditor.set({"":""});
     			});
     };
 
@@ -45,7 +47,7 @@ var TraitViewModel = function(traits) {
     			{ data: JSON.stringify({id:i}), 
     			  contentType: "application/json"
 			    }).done( function() {
-			    	model.getMessages();
+			    	traitmodel.getMessages();
     			});
     };
 
@@ -53,7 +55,7 @@ var TraitViewModel = function(traits) {
         this.newtraitid(id);
         this.newtraitname(name);
         this.newtraitmessage(message);
-        editor.setText(message);
+        traiteditor.setText(message);
     };
 
     /*
@@ -72,6 +74,26 @@ var TraitViewModel = function(traits) {
 */
 };
 
-var model = new TraitViewModel()
-ko.applyBindings(model);
-model.getMessages()
+var traitmodel = new TraitViewModel()
+ko.applyBindings(traitmodel);
+traitmodel.getMessages()
+
+var CardViewModel = function(traits) {
+    var self = this;
+
+	this.cardid = ko.observable("-1");
+	this.cardname = ko.observable("");
+	this.cardmessage = ko.observable("");
+
+    this.updateMessage = function(m) {self.cardmessage(m);}
+
+    this.editMessage = function(id,name,message) {
+        this.cardid(id);
+        this.cardname(name);
+        this.cardmessage(message);
+        cardeditor.setText(message);
+    };
+};
+
+var cardmodel = new CardViewModel()
+ko.applyBindings(cardmodel,document.getElementById("cards"));

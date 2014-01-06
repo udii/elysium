@@ -16,13 +16,13 @@
             <li>
                 <div class="row">
                     <div class="col-md-2">
-                        <a class="btn gray" data-bind="click: function(data) { model.deleteMessage(data._id.$oid) }">
+                        <a class="btn gray" data-bind="click: function(data) { traitmodel.deleteMessage(data._id.$oid) }">
                             <span class="glyphicon glyphicon-minus"></span>
                         </a>
                     </div>
                     <div class="col-md-2">
                         <a class="btn gray" data-toggle="modal" href="#addMessageModal"
-                           data-bind="click: function(data) { model.editMessage(data._id.$oid,data.name,data.message) }">
+                           data-bind="click: function(data) { traitmodel.editMessage(data._id.$oid,data.name,data.message) }">
                             <span class="glyphicon glyphicon-edit"></span>
                         </a>
                     </div>
@@ -35,8 +35,9 @@
             </li>
         </ul>
     </div>
-    <div class="col-md-3">
+    <div id="cards" class="col-md-3">
         <h4>Select or create card</h4>
+        @json("card")
     </div>
     <div class="col-md-6">
         <h4>Engage</h4>

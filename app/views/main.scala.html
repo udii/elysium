@@ -10,11 +10,14 @@
 	    <link rel='stylesheet' media="screen" href='@routes.WebJarAssets.at(WebJarAssets.locate("css/bootstrap.css"))'>
 	    <link rel='stylesheet' media="screen" href='@routes.WebJarAssets.at(WebJarAssets.locate("css/bootstrap-theme.css"))'>
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <link rel='stylesheet' type='text/css' href='@routes.Assets.at("stylesheets/jsoneditor.css")'>
 	    <script type='text/javascript' src='@routes.WebJarAssets.requirejs'></script>
 	    <script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("jquery.js"))'></script>
 	    <script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("bootstrap.js"))'></script>
 	    <script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("knockout.debug.js"))'></script>
 	    <script type='text/javascript' src='/routes.js'></script>
+        <script type='text/javascript' src='@routes.Assets.at("javascripts/jsoneditor.js")'></script>
+        <script type='text/javascript' src='@routes.Assets.at("javascripts/jsoneditorhelper.js")'></script>
      </head>
 	<body>
 	    <nav class="navbar navbar-inverse" role="navigation">
@@ -38,6 +41,6 @@
 	        @content
 	    </div>
 
-	    <script type='text/javascript' src='@routes.Assets.at("javascripts/traits.js")'></script>
+        <script type='text/javascript' src='@routes.Assets.at("javascripts/traits.js")'></script>
 	</body>
 </html>

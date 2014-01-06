@@ -1,6 +1,11 @@
-@()
-
-<link rel='stylesheet' type='text/css' href='@routes.Assets.at("stylesheets/jsoneditor.css")'>
-<script type='text/javascript' src='@routes.Assets.at("javascripts/jsoneditor.js")'></script>
-<div id="jsoneditor" style="width: 100%; height: 400px;"></div>
-<script type='text/javascript' src='@routes.Assets.at("javascripts/jsoneditorhelper.js")'></script>
+@(editorname:String)
+<div id="@editorname" style="width: 100%; height: 400px;"></div>
+<script type='text/javascript'>
+var @(editorname+"editor") = createEditor(
+                "@editorname",
+                {"":""},
+                function() {
+                    window['@editorname'+'model'].updateMessage(window['@editorname'+'editor'].getText());
+                }
+                );
+</script>

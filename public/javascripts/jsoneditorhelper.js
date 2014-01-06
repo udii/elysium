@@ -1,8 +1,9 @@
-var container = document.getElementById("jsoneditor");
-var options = {
-    mode: 'tree',
-    change: function() { 
-    	model.newtraitmessage(editor.getText());
-    }
-};
-var editor = new jsoneditor.JSONEditor(container, options,{"":""});
+function createEditor(editorname,text,update) {
+    var container = document.getElementById(editorname);
+    var options = {
+        mode: 'tree',
+        change: update
+    };
+    var editor = new jsoneditor.JSONEditor(container, options, text);
+    return editor;
+}

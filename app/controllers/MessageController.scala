@@ -18,14 +18,9 @@ object MessageController extends Controller {
       }
   }
 
-  case class MessageForm(id:String,name:String, message: String) {
+  case class MessageForm(id:String,kind:String, name:String, message: String) {
     def toTrait: Trait = {
-      var t:Trait=null
-      if (id eq "-1")
-        t=Trait(BSONObjectID.generate, name, message)
-      else
-        t=Trait(new BSONObjectID(id), name, message)
-      t
+      Trait(id match { case "-1" => BSONObjectID.generate case _ => BSONObjectID(id) }, kind, name, message)
     }
   }
   
