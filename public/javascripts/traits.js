@@ -38,7 +38,7 @@ var TraitViewModel = function(traits) {
 				      self.newtraitid("-1");
 				      self.newtraitname("");
 				      self.newtraitmessage("");
-                     traiteditor.set({"":""});
+                      traiteditor.set({"":""});
     			});
     };
 
@@ -58,6 +58,12 @@ var TraitViewModel = function(traits) {
         traiteditor.setText(message);
     };
 
+    this.clear = function() {
+         self.newtraitid("-1");
+         self.newtraitname("");
+         self.newtraitmessage("");
+         traiteditor.set({"":""});
+     };
     /*
 
           # Server Sent Events handling
@@ -106,6 +112,7 @@ var CardViewModel = function(cards) {
 	};
 
     this.saveMessage = function() {
+            console.log("A1");
     	//self.newtraitmessage(editor.getText());
     	routes.controllers.MessageController.saveMessage().ajax(
     			{ data: JSON.stringify({
@@ -114,12 +121,10 @@ var CardViewModel = function(cards) {
     			name:self.newtraitname(), message:self.newtraitmessage()}),
     			  contentType: "application/json"
 			    }).done( function() {
+			            console.log("A2");
+
 			    	  traitmodel.getMessages();
 				      $("#addMessageModal").modal("hide");
-				      self.newtraitid("-1");
-				      self.newtraitname("");
-				      self.newtraitmessage("");
-                     traiteditor.set({"":""});
     			});
     };
 
@@ -155,9 +160,12 @@ var CardViewModel = function(cards) {
 */
 };
 
-var cardmodel = new CardViewModel()
+var cardmodel = new CardViewModel();
 ko.applyBindings(cardmodel,document.getElementById("cards"));
 //cardmodel.getMessages()
+
+$("#addMessageModal").on('hidden.bs.modal', traitmodel.clear);
+
 
 //var CardViewModel = function(traits) {
 //    var self = this;
@@ -178,3 +186,7 @@ ko.applyBindings(cardmodel,document.getElementById("cards"));
 //
 //var cardmodel = new CardViewModel()
 //ko.applyBindings(cardmodel,document.getElementById("cards"));
+//}
+
+// https://github.com/twbs/bootstrap/issues/9855
+

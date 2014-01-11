@@ -1,10 +1,10 @@
 @main("Elysium") {
-@addtrait()
 <div class="row">
-    <div id="traits" class="col-md-3">
+    <div id="traits" class="col-md-4">
+        @addtrait()
         <div class="row">
-            <div class="col-md-2">
-                <a class="btn" data-toggle="modal" href="#addMessageModal">
+            <div class="col-md-1">
+                <a class="padless btn" data-toggle="modal" href="#addMessageModal">
                     <span class="glyphicon glyphicon-plus gray"></span>
                 </a>
             </div>
@@ -17,23 +17,23 @@
                 <ul class="list-unstyled messages" data-bind="foreach: messages">
                     <li>
                         <div class="row">
-                            <div class="col-md-2">
-                                <a class="btn gray" data-bind="click: function(data) { traitmodel.deleteMessage(data._id.$oid) }">
+                            <div class="col-md-1">
+                                <a class="padless btn gray" data-bind="click: function(data) { traitmodel.deleteMessage(data._id.$oid) }">
                                     <span class="glyphicon glyphicon-minus"></span>
                                 </a>
                             </div>
-                            <div class="col-md-2">
-                                <a class="btn gray" data-toggle="modal" href="#addMessageModal"
+                            <div class="col-md-1">
+                                <a class="padless btn gray" data-toggle="modal" href="#addMessageModal"
                                    data-bind="click: function(data) { traitmodel.editMessage(data._id.$oid,data.name,data.message) }">
                                     <span class="glyphicon glyphicon-edit"></span>
                                 </a>
                             </div>
-                            <div class="col-md-2">
-                                <a class="btn gray" data-bind="click: function(data) { cardmodel.getMessages(data) }">
+                            <div class="col-md-1">
+                                <a class="padless btn gray" data-bind="click: function(data) { cardmodel.getMessages(data) }">
                                     <span class="glyphicon glyphicon-play"></span>
                                 </a>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <h5 data-bind="text: $data.name"></h5>
                                 <!--<h4 data-bind="text: $data._id.$oid"></h4>-->
                                 <!--<h4 data-bind="text: $data.message"></h4>-->
@@ -44,10 +44,10 @@
             </div>
         </div>
     </div>
-    <div id="cards" class="col-md-3">
+    <div id="cards" class="col-md-4">
         <div class="row">
-            <div class="col-md-2">
-                <a class="btn" data-toggle="modal" href="#addMessageModal">
+            <div class="col-md-1">
+                <a class="padless btn" data-toggle="modal" href="#addMessageModal">
                     <span class="glyphicon glyphicon-plus gray"></span>
                 </a>
             </div>
@@ -60,23 +60,23 @@
                 <ul class="list-unstyled messages" data-bind="foreach: messages">
                     <li>
                         <div class="row">
-                            <div class="col-md-2">
-                                <a class="btn gray" data-bind="click: function(data) { cardmodel.deleteMessage(data._id.$oid) }">
+                            <div class="col-md-1">
+                                <a class="padless btn gray" data-bind="click: function(data) { cardmodel.deleteMessage(data._id.$oid) }">
                                     <span class="glyphicon glyphicon-minus"></span>
                                 </a>
                             </div>
-                            <div class="col-md-2">
-                                <a class="btn gray" data-toggle="modal" href="#addMessageModal"
+                            <div class="col-md-1">
+                                <a class="padless btn gray" data-toggle="modal" href="#addMessageModal"
                                    data-bind="click: function(data) { cardmodel.editMessage(data._id.$oid,data.name,data.message) }">
                                     <span class="glyphicon glyphicon-edit"></span>
                                 </a>
                             </div>
-                            <div class="col-md-2">
-                                <a class="btn gray" data-bind="click: function(data) { cardmodel.searchMessage(data._id.$oid) }">
+                            <div class="col-md-1">
+                                <a class="padless btn gray" data-bind="click: function(data) { cardmodel.searchMessage(data._id.$oid) }">
                                     <span class="glyphicon glyphicon-play"></span>
                                 </a>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-8">
                                 <h5 data-bind="text: $data.name"></h5>
                                 <!--<h4 data-bind="text: $data._id.$oid"></h4>-->
                                 <!--<h4 data-bind="text: $data.message"></h4>-->
@@ -87,7 +87,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
         <h4>Engage</h4>
         <div class="row">
             <div class="col-md-6">
