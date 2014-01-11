@@ -1,7 +1,7 @@
 @main("Elysium") {
 @addtrait()
 <div class="row">
-    <div class="col-md-3">
+    <div id="traits" class="col-md-3">
         <div class="row">
             <div class="col-md-2">
                 <a class="btn" data-toggle="modal" href="#addMessageModal">
@@ -12,32 +12,80 @@
                 <h4>Things to do</h4>
             </div>
         </div>
-        <ul class="list-unstyled messages" data-bind="foreach: messages">
-            <li>
-                <div class="row">
-                    <div class="col-md-2">
-                        <a class="btn gray" data-bind="click: function(data) { traitmodel.deleteMessage(data._id.$oid) }">
-                            <span class="glyphicon glyphicon-minus"></span>
-                        </a>
-                    </div>
-                    <div class="col-md-2">
-                        <a class="btn gray" data-toggle="modal" href="#addMessageModal"
-                           data-bind="click: function(data) { traitmodel.editMessage(data._id.$oid,data.name,data.message) }">
-                            <span class="glyphicon glyphicon-edit"></span>
-                        </a>
-                    </div>
-                    <div class="col-md-4">
-                        <h5 data-bind="text: $data.name"></h5>
-                        <!--<h4 data-bind="text: $data._id.$oid"></h4>-->
-                        <!--<h4 data-bind="text: $data.message"></h4>-->
-                    </div>
-                </div>
-            </li>
-        </ul>
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="list-unstyled messages" data-bind="foreach: messages">
+                    <li>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <a class="btn gray" data-bind="click: function(data) { traitmodel.deleteMessage(data._id.$oid) }">
+                                    <span class="glyphicon glyphicon-minus"></span>
+                                </a>
+                            </div>
+                            <div class="col-md-2">
+                                <a class="btn gray" data-toggle="modal" href="#addMessageModal"
+                                   data-bind="click: function(data) { traitmodel.editMessage(data._id.$oid,data.name,data.message) }">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                </a>
+                            </div>
+                            <div class="col-md-2">
+                                <a class="btn gray" data-bind="click: function(data) { cardmodel.getMessages(data) }">
+                                    <span class="glyphicon glyphicon-play"></span>
+                                </a>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 data-bind="text: $data.name"></h5>
+                                <!--<h4 data-bind="text: $data._id.$oid"></h4>-->
+                                <!--<h4 data-bind="text: $data.message"></h4>-->
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
     <div id="cards" class="col-md-3">
-        <h4>Select or create card</h4>
-        @json("card")
+        <div class="row">
+            <div class="col-md-2">
+                <a class="btn" data-toggle="modal" href="#addMessageModal">
+                    <span class="glyphicon glyphicon-plus gray"></span>
+                </a>
+            </div>
+            <div class="col-md-10">
+                <h4>Search for <span data-bind="text: trait"></h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="list-unstyled messages" data-bind="foreach: messages">
+                    <li>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <a class="btn gray" data-bind="click: function(data) { cardmodel.deleteMessage(data._id.$oid) }">
+                                    <span class="glyphicon glyphicon-minus"></span>
+                                </a>
+                            </div>
+                            <div class="col-md-2">
+                                <a class="btn gray" data-toggle="modal" href="#addMessageModal"
+                                   data-bind="click: function(data) { cardmodel.editMessage(data._id.$oid,data.name,data.message) }">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                </a>
+                            </div>
+                            <div class="col-md-2">
+                                <a class="btn gray" data-bind="click: function(data) { cardmodel.searchMessage(data._id.$oid) }">
+                                    <span class="glyphicon glyphicon-play"></span>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <h5 data-bind="text: $data.name"></h5>
+                                <!--<h4 data-bind="text: $data._id.$oid"></h4>-->
+                                <!--<h4 data-bind="text: $data.message"></h4>-->
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
     <div class="col-md-6">
         <h4>Engage</h4>
