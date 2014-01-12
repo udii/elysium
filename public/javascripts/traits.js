@@ -34,7 +34,7 @@ var TraitViewModel = function(traits) {
     			  contentType: "application/json"
 			    }).done( function() {
 			    	  traitmodel.getMessages();
-				      $("#addMessageModal").modal("hide");
+				      $("#addtraitModal").modal("hide");
 				      self.newtraitid("-1");
 				      self.newtraitname("");
 				      self.newtraitmessage("");
@@ -90,7 +90,8 @@ traitmodel.getMessages()
 var CardViewModel = function(cards) {
     var self = this;
 
-    this.trait = ko.observable("anything");
+    this.trait = ko.observable({_id: { $oid:"-1" }, kind: "trait", name: "", message: "{\"\":\"\"}"})
+    this.traitname = ko.observable("anything");
 
 	this.messages = ko.observable(cards);
 	this.newtraitid = ko.observable("-1");
@@ -98,33 +99,48 @@ var CardViewModel = function(cards) {
 	this.newtraitmessage = ko.observable("");
 
     this.updateMessage = function(m) {self.newtraitmessage(m);}
-	this.getMessages = function(data) {
-	    self.trait(data.name)
-//		routes.controllers.MessageController.getCards(_id.$oid).ajax().done(
-		routes.controllers.MessageController.getMessages().ajax().done(
-				function(data, status, xhr) {
+
+	this.getCards = function(data) {
+	    self.trait(data)
+	    self.traitname(data.name)
+       	routes.controllers.CardController.getCards().ajax(
+    			{ data: JSON.stringify({
+                    id:"-1",
+    			    kind:"card",
+    			    trt:self.trait()._id.$oid,
+    			    name:self.trait().name,
+    			    message:""
+    			  }),
+    			  contentType: "application/json"
+			    }).done( function(data, status, xhr) {
 					self.loadMessages(data, status, xhr);
 				})
 	};
 
+    this.newCard = function() {
+        this.newtraitid("-1");
+        this.newtraitname(self.trait().name);
+        this.newtraitmessage(self.trait().message);
+        cardeditor.setText(self.trait().message);
+    }
 	this.loadMessages = function (data, status, xhr) {
         self.messages(data);
 	};
 
     this.saveMessage = function() {
-            console.log("A1");
     	//self.newtraitmessage(editor.getText());
-    	routes.controllers.MessageController.saveMessage().ajax(
-    			{ data: JSON.stringify({
-    			id:self.newtraitid(),
-    			kind:"card",
-    			name:self.newtraitname(), message:self.newtraitmessage()}),
-    			  contentType: "application/json"
-			    }).done( function() {
-			            console.log("A2");
 
-			    	  traitmodel.getMessages();
-				      $("#addMessageModal").modal("hide");
+    	routes.controllers.CardController.saveCard().ajax(
+    			{   data: JSON.stringify({
+                        id:self.newtraitid(),
+                        kind:"card",
+                        trt:self.trait()._id.$oid,
+                        name:self.newtraitname(),
+                        message:self.newtraitmessage()}),
+                    contentType: "application/json"
+			    }).done( function() {
+			    	  cardmodel.getCards(self.trait());
+				      $("#addcardModal").modal("hide");
     			});
     };
 
@@ -144,20 +160,13 @@ var CardViewModel = function(cards) {
         traiteditor.setText(message);
     };
 
-    /*
+    this.clear = function() {
+         self.newtraitid("-1");
+         self.newtraitname("");
+         self.newtraitmessage("");
+         cardeditor.set({"":""});
+     };
 
-          # Server Sent Events handling
-          events = new EventSource(routes.controllers.MainController.events().url)
-          events.addEventListener("message", (e) ->
-            # Only add the data to the list if we're on the first page
-            if model.prevMessagesUrl() == null
-              message = JSON.parse(e.data)
-              model.messages.unshift(message)
-              # Keep messages per page limit
-              if model.messages().length > messagesPerPage
-                model.messages.pop()
-          , false)
-*/
 };
 
 var cardmodel = new CardViewModel();

@@ -1,10 +1,10 @@
 @main("Elysium") {
 <div class="row">
     <div id="traits" class="col-md-4">
-        @addtrait()
+        @addtrait("trait")
         <div class="row">
             <div class="col-md-1">
-                <a class="padless btn" data-toggle="modal" href="#addMessageModal">
+                <a class="padless btn" data-toggle="modal" href="#addtraitModal">
                     <span class="glyphicon glyphicon-plus gray"></span>
                 </a>
             </div>
@@ -18,18 +18,18 @@
                     <li>
                         <div class="row">
                             <div class="col-md-1">
-                                <a class="padless btn gray" data-bind="click: function(data) { traitmodel.deleteMessage(data._id.$oid) }">
+                                <a class="padless btn gray" data-bind="click: function(data) { traitmodel.deleteMessage(data._id.$oid); }">
                                     <span class="glyphicon glyphicon-minus"></span>
                                 </a>
                             </div>
                             <div class="col-md-1">
-                                <a class="padless btn gray" data-toggle="modal" href="#addMessageModal"
-                                   data-bind="click: function(data) { traitmodel.editMessage(data._id.$oid,data.name,data.message) }">
+                                <a class="padless btn gray" data-toggle="modal" href="#addtraitModal"
+                                   data-bind="click: function(data) { traitmodel.editMessage(data._id.$oid,data.name,data.message); }">
                                     <span class="glyphicon glyphicon-edit"></span>
                                 </a>
                             </div>
                             <div class="col-md-1">
-                                <a class="padless btn gray" data-bind="click: function(data) { cardmodel.getMessages(data) }">
+                                <a class="padless btn gray" data-bind="click: function(data) { cardmodel.getCards(data); }">
                                     <span class="glyphicon glyphicon-play"></span>
                                 </a>
                             </div>
@@ -45,14 +45,16 @@
         </div>
     </div>
     <div id="cards" class="col-md-4">
+        @addtrait("card")
         <div class="row">
             <div class="col-md-1">
-                <a class="padless btn" data-toggle="modal" href="#addMessageModal">
-                    <span class="glyphicon glyphicon-plus gray"></span>
+                <a class="padless btn" data-toggle="modal" href="#addcardModal"
+                   data-bind="click: function(data) { cardmodel.newCard(); }">
+                <span class="glyphicon glyphicon-plus gray"></span>
                 </a>
             </div>
             <div class="col-md-10">
-                <h4>Search for <span data-bind="text: trait"></h4>
+                <h4>Search for <span data-bind="text: traitname"></h4>
             </div>
         </div>
         <div class="row">
@@ -61,18 +63,18 @@
                     <li>
                         <div class="row">
                             <div class="col-md-1">
-                                <a class="padless btn gray" data-bind="click: function(data) { cardmodel.deleteMessage(data._id.$oid) }">
+                                <a class="padless btn gray" data-bind="click: function(data) { cardmodel.deleteMessage(data._id.$oid); }">
                                     <span class="glyphicon glyphicon-minus"></span>
                                 </a>
                             </div>
                             <div class="col-md-1">
-                                <a class="padless btn gray" data-toggle="modal" href="#addMessageModal"
-                                   data-bind="click: function(data) { cardmodel.editMessage(data._id.$oid,data.name,data.message) }">
+                                <a class="padless btn gray" data-toggle="modal" href="#addcardModal"
+                                   data-bind="click: function(data) { cardmodel.editMessage(data._id.$oid,data.name,data.message); }">
                                     <span class="glyphicon glyphicon-edit"></span>
                                 </a>
                             </div>
                             <div class="col-md-1">
-                                <a class="padless btn gray" data-bind="click: function(data) { cardmodel.searchMessage(data._id.$oid) }">
+                                <a class="padless btn gray" data-bind="click: function(data) { cardmodel.searchMessage(data._id.$oid); }">
                                     <span class="glyphicon glyphicon-play"></span>
                                 </a>
                             </div>

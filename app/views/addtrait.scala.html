@@ -1,17 +1,17 @@
-@()
-<div class="modal fade" id="addMessageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+@(editorname:String)
+<div class="modal fade" id="add@(editorname)Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3>Edit trait</h3>
+                <h3>Edit @editorname</h3>
             </div>
             <div class="modal-body">
                 <form role="form">
                     <div class="form-group">
                         <input type="text" class="form-control" id="newtraitname" placeholder="Enter message"
                             data-bind="value: newtraitname"/>
-                           @json("trait")
+                           @json(editorname)
                     </div>
                 </form>
             </div>

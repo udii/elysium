@@ -3,3 +3,7 @@
 .gray {
     color: gray;
 }
+
+.padless {
+    padding: 6px 0px 6px 0px;
+}

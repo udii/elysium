@@ -7,7 +7,9 @@ GET		    /about                 controllers.Application.about
 
 GET         /message               controllers.MessageController.getMessages
 POST        /message               controllers.MessageController.saveMessage
-DELETE		/message/	 		   controllers.MessageController.deleteMessage
+DELETE		/message	 		   controllers.MessageController.deleteMessage
+POST        /cards/get             controllers.CardController.getCards
+POST        /cards                 controllers.CardController.saveCard
 GET         /lib/require.js        controllers.WebJarAssets.requirejs
 GET         /webjars/*file         controllers.WebJarAssets.at(file)
 GET         /assets/*file          controllers.Assets.at(path="/public", file)

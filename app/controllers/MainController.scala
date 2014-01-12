@@ -2,6 +2,7 @@ package controllers
 
 import play.api.mvc._
 import play.api.Routes
+import controllers.routes
 
 object MainController extends Controller {
 
@@ -14,7 +15,9 @@ object MainController extends Controller {
       Routes.javascriptRouter("routes")(
         routes.javascript.MessageController.getMessages,
         routes.javascript.MessageController.saveMessage,
-        routes.javascript.MessageController.deleteMessage
+        routes.javascript.MessageController.deleteMessage,
+        routes.javascript.CardController.getCards,
+        routes.javascript.CardController.saveCard
       )
     ).as("text/javascript")
   }
