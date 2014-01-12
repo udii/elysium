@@ -145,11 +145,11 @@ var CardViewModel = function(cards) {
     };
 
     this.deleteMessage = function(i) {
-    	routes.controllers.MessageController.deleteMessage().ajax(
+    	routes.controllers.CardController.deleteMessage().ajax(
     			{ data: JSON.stringify({id:i}),
     			  contentType: "application/json"
 			    }).done( function() {
-			    	traitmodel.getMessages();
+			    	cardmodel.getMessages();
     			});
     };
 
@@ -173,7 +173,8 @@ var cardmodel = new CardViewModel();
 ko.applyBindings(cardmodel,document.getElementById("cards"));
 //cardmodel.getMessages()
 
-$("#addMessageModal").on('hidden.bs.modal', traitmodel.clear);
+$("#addtraitModal").on('hidden.bs.modal', traitmodel.clear);
+$("#addcardModal").on('hidden.bs.modal', traitmodel.clear);
 
 
 //var CardViewModel = function(traits) {
