@@ -174,7 +174,7 @@ ko.applyBindings(cardmodel,document.getElementById("cards"));
 //cardmodel.getMessages()
 
 $("#addtraitModal").on('hidden.bs.modal', traitmodel.clear);
-$("#addcardModal").on('hidden.bs.modal', traitmodel.clear);
+$("#addcardModal").on('hidden.bs.modal', cardmodel.clear);
 
 
 //var CardViewModel = function(traits) {
