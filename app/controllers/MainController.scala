@@ -17,6 +17,7 @@ object MainController extends Controller {
         routes.javascript.MessageController.saveMessage,
         routes.javascript.MessageController.deleteMessage,
         routes.javascript.CardController.getCards,
+        routes.javascript.CardController.searchCards,
         routes.javascript.CardController.saveCard
       )
     ).as("text/javascript")

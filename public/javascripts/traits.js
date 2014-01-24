@@ -167,6 +167,23 @@ var CardViewModel = function(cards) {
          cardeditor.set({"":""});
      };
 
+	this.searchCards = function(data) {
+        console.log(data);
+       	routes.controllers.CardController.searchCards().ajax(
+    			{ data: JSON.stringify({
+                    id:data._id.$oid,
+    			    kind:"search",
+    			    trt:data.trt,
+    			    name:data.name,
+    			    message:data.message
+    			  }),
+    			  contentType: "application/json"
+			    }).done( function(data, status, xhr) {
+			        console.log(data);
+			        console.log(status);
+			        console.log(xhr);
+				})
+	};
 };
 
 var cardmodel = new CardViewModel();

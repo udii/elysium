@@ -28,6 +28,22 @@ object CardController extends Controller {
     )
   }
 
+  def searchCards = Action.async(parse.json) { req =>
+    println("search "+req.body)
+    Json.fromJson[CardForm](req.body).fold(
+      invalid => Future(BadRequest("Bad message form")),
+      form => {
+        println(form)
+        for {
+          messages <- CardDao.searchCards(form.toCard)
+        } yield {
+          println("search res "+messages)
+          Ok(Json.toJson(messages))
+        }
+      }
+    )
+  }
+
   case class CardForm(id:String, kind:String, trt:String, name:String, message: String) {
     def toCard: Card = {
       Card(id match { case "-1" => BSONObjectID.generate case _ => BSONObjectID(id) }, kind, trt, name, message)
