@@ -28,7 +28,7 @@ object CardDao {
       case error => throw new RuntimeException(error.message)
     }
 
-    WS.url("http://localhost:9200/elysium/"+message.kind+"/"+message._id.stringify).post(message.message).map {
+    WS.url("http://localhost:9200/"+message.trt+"/"+message.kind+"/"+message._id.stringify).post(message.message).map {
       response =>
         val body = response.json
         val status = (body \ "ok").as[Boolean]
@@ -61,7 +61,7 @@ object CardDao {
   }
 
   def searchCards(message: Card): Future[Seq[Card]] = {
-    println("search "+message.message)
+    println("search "+message.message+" "+message.trt)
 
     val arr = Json.parse(message.message).as[Map[String,JsValue]].map(
       { case (a,b) => Json.obj(
@@ -70,30 +70,45 @@ object CardDao {
           )
       )} ).toList
 
+//    val obj = Json.obj(
+//      "query" -> Json.obj(
+//        "bool" -> Json.obj(
+//          "should" -> arr
+//        )
+//      )
+//    )
+
     val obj = Json.obj(
       "query" -> Json.obj(
-        "bool" -> Json.obj(
-          "should" -> arr
-        )
+        "fuzzy" ->  Json.parse(message.message)
       )
     )
 
-    println(obj)
+    println("query: "+obj)
     val query = Json.stringify(obj)
-    println("q: "+query)
-    WS.url("http://localhost:9200/elysium/_search").post(query).map {
+    WS.url("http://localhost:9200/"+message.trt+"/_search").post(query).map {
       response =>
         val body = response.json
-        val status = (body \ "ok").as[Boolean]
-        println(body)
-        if (status) {
-          println(body)
-        } else {
-          throw new RuntimeException()
-        }
+        (body \ "hits" \ "hits").validate[List[JsValue]]
+          .map[List[Card]]( j => j
+          .map( e =>
+            {
+              println("E "+e)
+              println("E "+(e \ "_source").getClass())
+              println("E "+Json.stringify(e \ "_source"))
+              new Card(new BSONObjectID((e \ "_id").validate[String].get),
+                      (e \ "_type").validate[String].get,
+                      (e \ "_index").validate[String].get,
+                      (e \ "_id").validate[String].get,
+                      Json.stringify(e \ "_source")
+                      )
+
+            }
+          )
+          ).get
     }
 
-    Future { Seq (new Card(new BSONObjectID("1"),"a","b","c","d")) }
+//    Future { Seq (new Card(new BSONObjectID("1"),"a","b","c","d")) }
 
   }
 

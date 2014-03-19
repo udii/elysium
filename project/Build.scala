@@ -11,7 +11,8 @@ object ApplicationBuild extends Build {
   val appDependencies = Seq(
     // Reactive Mongo dependencies
     "org.reactivemongo" %% "play2-reactivemongo" % "0.10.0",
-    
+    "org.elasticsearch" % "elasticsearch" % "0.90.9",
+
     // WebJars pull in client-side web libraries
     "org.webjars" %% "webjars-play" % "2.2.1",
     "org.webjars" % "bootstrap" % "3.0.0",

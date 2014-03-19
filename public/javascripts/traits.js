@@ -157,7 +157,7 @@ var CardViewModel = function(cards) {
         this.newtraitid(id);
         this.newtraitname(name);
         this.newtraitmessage(message);
-        traiteditor.setText(message);
+        cardeditor.setText(message);
     };
 
     this.clear = function() {
@@ -168,6 +168,112 @@ var CardViewModel = function(cards) {
      };
 
 	this.searchCards = function(data) {
+        console.log(data);
+        hitmodel.search(data)
+//       	routes.controllers.CardController.searchCards().ajax(
+//    			{ data: JSON.stringify({
+//                    id:data._id.$oid,
+//    			    kind:"search",
+//    			    trt:data.trt,
+//    			    name:data.name,
+//    			    message:data.message
+//    			  }),
+//    			  contentType: "application/json"
+//			    }).done( function(data, status, xhr) {
+//			        console.log(data);
+//			        console.log(status);
+//			        console.log(xhr);
+//				})
+	};
+};
+
+var cardmodel = new CardViewModel();
+ko.applyBindings(cardmodel,document.getElementById("cards"));
+//cardmodel.getMessages()
+
+// HITS \\
+
+var HitViewModel = function(hits) {
+    var self = this;
+
+    this.trait = ko.observable({_id: { $oid:"-1" }, kind: "trait", name: "", message: "{\"\":\"\"}"})
+    this.traitname = ko.observable("anything");
+
+	this.messages = ko.observable(hits);
+	this.newtraitid = ko.observable("-1");
+	this.newtraitname = ko.observable("");
+	this.newtraitmessage = ko.observable("");
+
+    this.updateMessage = function(m) {self.newtraitmessage(m);}
+
+	this.getCards = function(data) {
+	    self.trait(data)
+	    self.traitname(data.name)
+//       	routes.controllers.CardController.getCards().ajax(
+//    			{ data: JSON.stringify({
+//                    id:"-1",
+//    			    kind:"card",
+//    			    trt:self.trait()._id.$oid,
+//    			    name:self.trait().name,
+//    			    message:""
+//    			  }),
+//    			  contentType: "application/json"
+//			    }).done( function(data, status, xhr) {
+//					self.loadMessages(data, status, xhr);
+//				})
+	};
+
+    this.newCard = function() {
+        this.newtraitid("-1");
+        this.newtraitname(self.trait().name);
+        this.newtraitmessage(self.trait().message);
+        cardeditor.setText(self.trait().message);
+    }
+	this.loadMessages = function (data, status, xhr) {
+        self.messages(data);
+	};
+
+    this.saveMessage = function() {
+    	//self.newtraitmessage(editor.getText());
+
+//    	routes.controllers.CardController.saveCard().ajax(
+//    			{   data: JSON.stringify({
+//                        id:self.newtraitid(),
+//                        kind:"card",
+//                        trt:self.trait()._id.$oid,
+//                        name:self.newtraitname(),
+//                        message:self.newtraitmessage()}),
+//                    contentType: "application/json"
+//			    }).done( function() {
+//			    	  cardmodel.getCards(self.trait());
+//				      $("#addcardModal").modal("hide");
+//    			});
+    };
+
+    this.deleteMessage = function(i) {
+//    	routes.controllers.CardController.deleteMessage().ajax(
+//    			{ data: JSON.stringify({id:i}),
+//    			  contentType: "application/json"
+//			    }).done( function() {
+//			    	cardmodel.getMessages();
+//    			});
+    };
+
+    this.editMessage = function(id,name,message) {
+        this.newtraitid(id);
+        this.newtraitname(name);
+        this.newtraitmessage(message);
+        hiteditor.setText(message);
+    };
+
+    this.clear = function() {
+         self.newtraitid("-1");
+         self.newtraitname("");
+         self.newtraitmessage("");
+         cardeditor.set({"":""});
+     };
+
+	this.search = function(data) {
         console.log(data);
        	routes.controllers.CardController.searchCards().ajax(
     			{ data: JSON.stringify({
@@ -182,16 +288,17 @@ var CardViewModel = function(cards) {
 			        console.log(data);
 			        console.log(status);
 			        console.log(xhr);
+			        self.loadMessages(data);
 				})
 	};
 };
 
-var cardmodel = new CardViewModel();
-ko.applyBindings(cardmodel,document.getElementById("cards"));
-//cardmodel.getMessages()
+var hitmodel = new HitViewModel();
+ko.applyBindings(hitmodel,document.getElementById("hits"));
 
 $("#addtraitModal").on('hidden.bs.modal', traitmodel.clear);
 $("#addcardModal").on('hidden.bs.modal', cardmodel.clear);
+$("#addhitModal").on('hidden.bs.modal', hitmodel.clear);
 
 
 //var CardViewModel = function(traits) {
